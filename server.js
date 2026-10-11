@@ -8,6 +8,9 @@ const nacl = require("tweetnacl");
 const B = require("./budget.js");
 const bs58 = require("bs58");
 
+// public Solana addresses (not secrets: they are visible on the blockchain)
+const AMH_MINT_ADDR = "4UimrPoyavJpjYhC94yFw4Kkb3T7AKHvCrjLixBL8x1k";
+const AMH_TREASURY_ADDR = "CNt9BxZGXabyWQm932n1baUb9tssnKhJFxwiZphuK5TF";
 const PORT = process.env.PORT || 10000;
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const RPC = process.env.SOLANA_RPC || "https://api.mainnet-beta.solana.com";
@@ -65,9 +68,10 @@ const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "GET" && url.pathname === "/api/config") {
       return send(res, 200, {
-        mint: process.env.AMH_MINT || null,
+        mint: process.env.AMH_MINT || AMH_MINT_ADDR,
         programId: process.env.AMH_PROGRAM_ID || null,
         treasuryAta: process.env.AMH_TREASURY_ATA || null,
+        treasuryWallet: process.env.AMH_TREASURY_WALLET || AMH_TREASURY_ADDR,
         decimals: Number(process.env.AMH_DECIMALS || 9),
       });
     }
